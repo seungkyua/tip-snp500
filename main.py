@@ -5,6 +5,7 @@ import datetime
 import time
 import pandas as pd
 import numpy as np
+import os
 
 
 def get_daily_snp500_first():
@@ -129,11 +130,13 @@ def get_pdbc():
     pdbc_momentum = pdbc_mean - df['Close'][0]
     pdbc_momentum = np.trunc(pdbc_momentum * 1000000) / 1000000
     pdbc_momentum = format(pdbc_momentum, '.6f')
-    print(f'PDBC 6개월: {pdbc_momentum}')
     return pdbc_momentum
 
 
 def init():
+    current_directory = os.getcwd()
+    print(f"현재 작업 디렉토리: {current_directory}")
+
     date, snp500_value_first = get_daily_snp500_first()
     snp500_value_second = get_daily_snp500_second()
     tip_momentum_13612u, tip_momentum_12sva = get_tip()
@@ -141,7 +144,7 @@ def init():
     tlt_momentum = get_tlt()
     pdbc_momentum = get_pdbc()
 
-    with open('result.csv', 'a', encoding='utf-8') as file:
+    with open(f'{current_directory}/data/result.csv', 'a', encoding='utf-8') as file:
         file.write(f'{date},{snp500_value_first},{snp500_value_second},{tip_momentum_13612u},{tip_momentum_12sva},'
                    f'{bil_momentum},{tlt_momentum},{pdbc_momentum}\n')
 
