@@ -21,6 +21,7 @@ def get_daily_snp500_first():
         date = table_element[0].find('tr', attrs={'id': '0'}).get_text(strip=True)
         value_element = table_element[1].find('tr', attrs={'id': '0'})
         value = value_element.find('td', {'data-column': 'Value'}).find('span').get_text(strip=True)
+        value = remove_percent_suffix(value)
     else:
         print("Table element not found.")
 
@@ -40,6 +41,7 @@ def get_daily_snp500_second():
         td_element = tr_element.find_all('td', recursive=True)
         td_element[1].find('abbr').decompose()
         value = td_element[1].get_text(strip=True)
+        value = remove_percent_suffix(value)
     else:
         print("Table element not found.")
 
@@ -157,6 +159,13 @@ def get_pdbc():
         print(f"파일 삭제 실패: {e}")
 
     return pdbc_momentum
+
+
+def remove_percent_suffix(input_string):
+    if input_string.endswith("%"):
+        return input_string[:-1]
+    else:
+        return input_string
 
 
 def init():
