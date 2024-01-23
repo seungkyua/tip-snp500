@@ -176,6 +176,7 @@ def init():
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
+    today = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:00:00")
     date, snp500_value_first = get_daily_snp500_first()
     snp500_value_second = get_daily_snp500_second()
     tip_momentum_13612u, tip_momentum_12sva = get_tip()
@@ -184,7 +185,7 @@ def init():
     pdbc_momentum = get_pdbc()
 
     with open(f'{file_dir}/result.csv', 'a', encoding='utf-8') as file:
-        file.write(f'{date},{snp500_value_first},{snp500_value_second},{tip_momentum_13612u},{tip_momentum_12sva},'
+        file.write(f'{today},{date},{snp500_value_first},{snp500_value_second},{tip_momentum_13612u},{tip_momentum_12sva},'
                    f'{bil_momentum},{tlt_momentum},{pdbc_momentum}\n')
 
 
