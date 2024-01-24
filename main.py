@@ -29,10 +29,11 @@ def get_daily_snp500_first():
 
 
 def get_daily_snp500_second():
-    url = "https://www.multpl.com/s-p-500-dividend-yield/table/by-year"
+    url = "https://www.multpl.com/s-p-500-dividend-yield/table/by-month"
     response = requests.get(url)
     html_content = response.text
 
+    date = ''
     value = ''
     soup = BeautifulSoup(html_content, 'html.parser')
     table_element = soup.find('table', attrs={'id': 'datatable'})
@@ -40,12 +41,14 @@ def get_daily_snp500_second():
         tr_element = table_element.find('tr', attrs={'class': 'odd'})
         td_element = tr_element.find_all('td', recursive=True)
         td_element[1].find('abbr').decompose()
+        date = td_element[0].get_text(strip=True)
+        date = datetime.datetime.strptime(date, '%b %d, %Y').strftime('%Y-%m-%d')
         value = td_element[1].get_text(strip=True)
         value = remove_percent_suffix(value)
     else:
         print("Table element not found.")
 
-    return value
+    return date, value
 
 
 def get_tip():
@@ -177,15 +180,15 @@ def init():
         os.makedirs(file_dir)
 
     today = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:00:00")
-    date, snp500_value_first = get_daily_snp500_first()
-    snp500_value_second = get_daily_snp500_second()
+    snp500_date_first, snp500_value_first = get_daily_snp500_first()
+    snp500_date_second, snp500_value_second = get_daily_snp500_second()
     tip_momentum_13612u, tip_momentum_12sva = get_tip()
     bil_momentum = get_bil()
     tlt_momentum = get_tlt()
     pdbc_momentum = get_pdbc()
 
     with open(f'{file_dir}/result.csv', 'a', encoding='utf-8') as file:
-        file.write(f'{today},{date},{snp500_value_first},{snp500_value_second},{tip_momentum_13612u},{tip_momentum_12sva},'
+        file.write(f'{today},{snp500_date_first}|{snp500_value_first},{snp500_date_second},{snp500_value_second},{tip_momentum_13612u},{tip_momentum_12sva},'
                    f'{bil_momentum},{tlt_momentum},{pdbc_momentum}\n')
 
 
