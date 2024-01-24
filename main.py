@@ -179,7 +179,7 @@ def init():
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
-    today = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:00:00")
+    today = (datetime.datetime.now() + datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:00")
     snp500_date_first, snp500_value_first = get_daily_snp500_first()
     snp500_date_second, snp500_value_second = get_daily_snp500_second()
     tip_momentum_13612u, tip_momentum_12sva = get_tip()
