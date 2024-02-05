@@ -66,7 +66,7 @@ def get_tip():
 
     # TIP 물가연동채 13612U 모멘텀이 마이너스인 경우 방어 자산으로 전환 (1달은 21일)
     # 13612U 모멘텀 =((p0/p1–1)+(p0/p3–1)+(p0/p6–1)+(p0/p12–1))/4
-    p0 = df['Close'][0]
+    p0 = df['Close'][len(df)-1]
     p1 = df['Close'][len(df) - 1 - (21 * 1)]
     p3 = df['Close'][len(df) - 1 - (21 * 3)]
     p6 = df['Close'][len(df) - 1 - (21 * 6)]
@@ -76,7 +76,7 @@ def get_tip():
     tip_momentum_13612u = np.trunc(tip_momentum_13612u * 1000000) / 1000000
     tip_momentum_13612u = format(tip_momentum_13612u, '.6f')
 
-    tip_momentum_12sva = df['Close'][0] / np.mean(df['Close']) - 1
+    tip_momentum_12sva = p0 / np.mean(df['Close']) - 1
     tip_momentum_12sva = np.trunc(tip_momentum_12sva * 1000000) / 1000000
     tip_momentum_12sva = format(tip_momentum_12sva, '.6f')
 
