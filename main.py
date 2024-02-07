@@ -101,7 +101,8 @@ def get_bil():
 
     df = pd.read_csv('bil.csv')
     bil_mean = np.mean(df['Close'])
-    bil_momentum = bil_mean - df['Close'][0]
+    # bil_momentum = bil_mean - df['Close'][0]
+    bil_momentum = (df['Close'][len(df)-1] / bil_mean - 1)
     bil_momentum = np.trunc(bil_momentum * 1000000) / 1000000
     bil_momentum = format(bil_momentum, '.6f')
 
@@ -126,7 +127,8 @@ def get_tlt():
 
     df = pd.read_csv('tlt.csv')
     tlt_mean = np.mean(df['Close'])
-    tlt_momentum = tlt_mean - df['Close'][0]
+    # tlt_momentum = tlt_mean - df['Close'][0]
+    tlt_momentum = (df['Close'][len(df)-1] / tlt_mean - 1)
     tlt_momentum = np.trunc(tlt_momentum * 1000000) / 1000000
     tlt_momentum = format(tlt_momentum, '.6f')
 
@@ -151,7 +153,8 @@ def get_pdbc():
 
     df = pd.read_csv('pdbc.csv')
     pdbc_mean = np.mean(df['Close'])
-    pdbc_momentum = pdbc_mean - df['Close'][0]
+    # pdbc_momentum = pdbc_mean - df['Close'][0]
+    pdbc_momentum = (df['Close'][len(df)-1] / pdbc_mean - 1)
     pdbc_momentum = np.trunc(pdbc_momentum * 1000000) / 1000000
     pdbc_momentum = format(pdbc_momentum, '.6f')
 
